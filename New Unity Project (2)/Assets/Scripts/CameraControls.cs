@@ -61,7 +61,7 @@ public class CameraControls : MonoBehaviour
         transform.Rotate(0, 0, -z);
 
         // x rotation boundaries
-
+        if (this.transform.eulerAngles.x >= 50)
 
     }
 }
