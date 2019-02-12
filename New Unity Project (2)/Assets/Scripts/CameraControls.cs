@@ -7,6 +7,8 @@ public class CameraControls : MonoBehaviour
 
     public float speed;
     Vector3 position;
+    public float viewRange = 50f;
+    public float mouseSensitivity = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -51,17 +53,27 @@ public class CameraControls : MonoBehaviour
             this.transform.position = position;
         }
 
-        float y = Input.GetAxis("Mouse X");
-        float x = Input.GetAxis("Mouse Y");
+        float y = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float x = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        transform.Rotate(-x, y, 0);
+        transform.Rotate(0, y, 0);
 
         // cancel out z rotation
-        float z = transform.eulerAngles.z;
-        transform.Rotate(0, 0, -z);
+        float zCorrection = -transform.eulerAngles.z;
+        transform.Rotate(0, 0, zCorrection);
 
         // x rotation boundaries
-        if (this.transform.eulerAngles.x >= 50)
+        x = Mathf.Clamp(x, -viewRange, viewRange);
+        print(x + "\n");
+        transform.localRotation *= Quaternion.Euler(-x, 0, 0);
 
+        //float xCorrection = -transform.eulerAngles.x;
+        //if (this.transform.eulerAngles.x >= 10) {
+        //    transform.Rotate(xCorrection + 10, 0, 0);
+        //}
+        //if (this.transform.eulerAngles.x <= -50)
+        //{
+        //    transform.Rotate(-xCorrection, 0, 0);
+        //}
     }
 }
