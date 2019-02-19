@@ -7,7 +7,7 @@ public class CameraControls : MonoBehaviour
 
     public float speed;
     Vector3 position;
-    public float viewRange = 50f;
+    public int viewRange = 30;
     public float mouseSensitivity = 3.0f;
 
     // Start is called before the first frame update
@@ -23,6 +23,7 @@ public class CameraControls : MonoBehaviour
 
         // make calculations/update game state
         Move();
+        Rotate();
 
         // update visuals/render game state
 
@@ -44,6 +45,10 @@ public class CameraControls : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
+            //// Fly
+            //position += this.transform.forward * speed;
+            //this.transform.position = position;
+
             position.z += speed;
             this.transform.position = position;
         }
@@ -52,28 +57,45 @@ public class CameraControls : MonoBehaviour
             position.z -= speed;
             this.transform.position = position;
         }
-
+    }
+    
+    void Rotate()
+    {
+        
         float y = Input.GetAxis("Mouse X") * mouseSensitivity;
         float x = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
+        // Y Rotation
         transform.Rotate(0, y, 0);
 
-        // cancel out z rotation
         float zCorrection = -transform.eulerAngles.z;
+        // Cancel out z rotation
         transform.Rotate(0, 0, zCorrection);
 
-        // x rotation boundaries
-        x = Mathf.Clamp(x, -viewRange, viewRange);
-        print(x + "\n");
-        transform.localRotation *= Quaternion.Euler(-x, 0, 0);
+        
+        float xRotation = transform.eulerAngles.x;
+        float yRotation = transform.eulerAngles.y;
+        bool facingUp = false;
 
-        //float xCorrection = -transform.eulerAngles.x;
-        //if (this.transform.eulerAngles.x >= 10) {
-        //    transform.Rotate(xCorrection + 10, 0, 0);
-        //}
-        //if (this.transform.eulerAngles.x <= -50)
-        //{
-        //    transform.Rotate(-xCorrection, 0, 0);
-        //}
+        // Determine if rotation is looking at top or bottom half
+        if (xRotation <= 360 && xRotation >= 270)
+        {
+            facingUp = true;
+        }
+
+        // X Rotation and Boundaries
+        if (xRotation >= (90 - viewRange) && !facingUp)
+        {
+            this.transform.localRotation = Quaternion.Euler((90 - viewRange), yRotation, 0);
+        }
+        else if (xRotation <= (360 - viewRange) && facingUp)
+        {
+            this.transform.localRotation = Quaternion.Euler((360 - viewRange), yRotation, 0);
+        }
+        else
+        {
+            transform.Rotate(-x, 0, 0);
+        }
     }
 }
+
