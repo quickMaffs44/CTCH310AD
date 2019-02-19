@@ -20,6 +20,10 @@ public class CameraControls : MonoBehaviour
     void Update()
     {
         // get user input
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ResetCamera();
+        }
 
         // make calculations/update game state
         Move();
@@ -96,6 +100,11 @@ public class CameraControls : MonoBehaviour
         {
             transform.Rotate(-x, 0, 0);
         }
+    }
+
+    void ResetCamera()
+    {
+        this.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 }
 
