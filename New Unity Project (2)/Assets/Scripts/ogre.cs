@@ -1,10 +1,17 @@
 ﻿/* File: ogre.cs
- * Name:  
- * Date: 
- * etc. 
- * .
- * .
+ * Name: Earl Labios
+ * Student #: 200389267
+ * Date: Mar 12, 2019
+ * Assignment 3
+ * Part 3 
+ * Lab B
 */
+
+
+/*
+ * Make it so that when you press a button, it lowers the ogre's intelligence, 
+ * changes state, or presses button to raise intelligence
+ */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -58,5 +65,5 @@ public class ogre : MonoBehaviour {
         print (testNum);
         
     }
-    
-    }
+
+}
