@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public AudioClip shootClip;
+    private AudioSource audioSource;
+    public float volMin = .5f;
+    public float volMax = 1.0f;
+
     public GameObject bullet;
     public Transform bulletSpawn;
     public float bulletSpeed;
@@ -13,6 +18,11 @@ public class Player : MonoBehaviour
 
     public float rotateSpeed;
     public float moveSpeed;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +46,7 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.Space))
         {
             Shoot();
+            ShootSFX();
         }
     }
 
@@ -53,5 +64,11 @@ public class Player : MonoBehaviour
         Destroy(newBullet, bulletLifetime);
 
 
+    }
+
+    void ShootSFX()
+    {
+        float vol = Random.Range(volMin, volMax);
+        audioSource.PlayOneShot(shootClip, vol);
     }
 }
