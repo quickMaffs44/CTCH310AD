@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
             Shoot();
             ShootSFX();
         }
+        this.transform.TransformDirection(Vector3.down * 9.8f);
     }
 
     void Shoot()
